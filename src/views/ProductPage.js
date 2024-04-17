@@ -17,6 +17,15 @@ export default function ProductPage() {
         });
     }, [id]);
 
+    function addtoCart(productid) {
+        let cart = localStorage.getItem("cart");
+        cart = cart ? cart.split(",") : [];
+        cart.push(productid);
+        cart = cart.join(",");
+        localStorage.setItem("cart", cart);
+        console.log(localStorage.getItem("cart"));
+    }
+
     if (loading) {
         return (
             <>
@@ -44,7 +53,7 @@ export default function ProductPage() {
                         <img src={product.producturl} alt={`${product.productname}`} className="mb-4 max-h-60 mx-auto"/>
                         <p className="text-xl mb-4"><strong>Price:</strong> ${product.price}</p>
                         <p className="text-xl mb-4"><strong>Quantity:</strong> {product.quantity} available</p>
-                        <button className="mt-4 bg-[#c98986] text-white text-lg px-6 py-3 rounded hover:bg-[#a76d68] transition-colors focus:outline-none focus:ring-2 focus:ring-[#a76d68] focus:ring-opacity-50">
+                        <button onClick={()=>{addtoCart(product.productid)}} className="mt-4 bg-[#c98986] text-white text-lg px-6 py-3 rounded hover:bg-[#a76d68] transition-colors focus:outline-none focus:ring-2 focus:ring-[#a76d68] focus:ring-opacity-50">
                             Add to Cart
                         </button>
                     </div>

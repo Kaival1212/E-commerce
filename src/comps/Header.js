@@ -13,8 +13,8 @@ export const Header = () => {
                 <nav className="hidden md:flex items-center gap-8 text-lg">
                     <Link to="/"><span className="hover:underline cursor-pointer">Home</span></Link>
                     <Link to={"/admin"}><span className="hover:underline cursor-pointer">Admin</span></Link>
-                    <a href="/main"><span className="hover:underline cursor-pointer">Shop</span></a>
-                    <span className="hover:underline cursor-pointer">Cart</span>
+                    <Link to="/main"><span className="hover:underline cursor-pointer">Shop</span></Link>
+                    <Link to={"/cart"}><span className="hover:underline cursor-pointer">Cart</span></Link>
                 </nav>
                 <div className="md:hidden">
                     <img src="/menu-icon.svg" alt="Menu" width={24} height={24} className="cursor-pointer"/>

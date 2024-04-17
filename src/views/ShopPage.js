@@ -2,10 +2,12 @@ import {getAllProducts} from "../comps/DataAccess";
 import {useEffect, useState} from "react";
 import Sidebar from "../comps/Sidebar";
 import Header from "../comps/Header";
+import {Link} from "react-router-dom";
 
 export default function ShopPage() {
 
     const [products, setProducts] = useState([])
+
     useEffect(() => {
         const fetchProducts = async () => {
             const products = await getAllProducts()
@@ -25,8 +27,8 @@ export default function ShopPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl px-4 md:px-0">
                     {products.length > 0 ? (
                         products.map((product) => (
-                            <a
-                                href={`/main/category/product/${product.productid}`}
+                            <Link
+                                to={`/main/category/product/${product.productid}`}
                                 key={product.productid}
                             >
                                 <div
@@ -46,7 +48,7 @@ export default function ShopPage() {
                                     </div>
                                     <div className="text-lg font-medium mt-1">${product.price}</div>
                                 </div>
-                            </a>
+                            </Link>
                         ))
                     ) : (
                         <div>Loading...</div>

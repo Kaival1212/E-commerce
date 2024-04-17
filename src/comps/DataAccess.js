@@ -3,7 +3,7 @@ import { createBrowserClient } from '@supabase/ssr'
 
 
 const supabaseUrl = 'https://rsgfsmrmgsffdxccbcmf.supabase.co'
-const supabaseKey = process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZ2ZzbXJtZ3NmZmR4Y2NiY21mIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxMzAyNTc5MSwiZXhwIjoyMDI4NjAxNzkxfQ.7tRc69hg8Is_Nf0tdVRPzsnJYxUyJzRtBQSAkbTEr-0'
+const supabaseKey ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZ2ZzbXJtZ3NmZmR4Y2NiY21mIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcxMzAyNTc5MSwiZXhwIjoyMDI4NjAxNzkxfQ.7tRc69hg8Is_Nf0tdVRPzsnJYxUyJzRtBQSAkbTEr-0'
 const supabase = createBrowserClient(supabaseUrl, supabaseKey)
 
 
@@ -67,21 +67,21 @@ export async function getAllProducts() {
     return products
 }
 
-export async function verifyUser(email, password) {
+export async function verifyAdmin(email, password) {
 
     let { data: user, error } = await supabase
-        .from('Employees')
+        .from('employees')
         .select('*')
-        .eq('Email', email)
-        .eq('Password', password)
+        .eq('email', email)
+        .eq('password', password)
         .single()
 
     if (error) {
         console.log(error)
-        return {}
+        return false
     }
 
-    return user
+    return true
 }
 
 export async function deleteProduct(id) {
@@ -111,4 +111,49 @@ export async function editProduct(id, updatedProduct) {
         console.error('Error updating product:', error);
         return false;
     }
+}
+
+export async function addProduct(product) {
+
+    const productid = Math.floor(Math.random() * 1000000);
+    product.productid = productid;
+
+    try {
+        await supabase
+            .from('products')
+            .insert(product);
+
+        return true;
+    } catch (error) {
+        console.error('Error adding product:', error);
+        return false;
+    }
+}
+
+export async function getOrders() {
+    let { data: orders, error } = await supabase
+        .from('orders')
+        .select('*')
+
+    if (error) {
+        console.log(error)
+        return []
+    }
+
+    console.log(orders)
+    return orders
+}
+
+export async function getOrderItems(orderid) {
+    let { data: items, error } = await supabase
+        .from('orderitems')
+        .select('*')
+        .eq('orderid', orderid)
+
+    if (error) {
+        console.log(error)
+        return []
+    }
+
+    return items
 }

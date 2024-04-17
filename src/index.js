@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import {createBrowserRouter , RouterProvider}  from 'react-router-dom';
 import './index.css';
@@ -9,6 +9,14 @@ import CatPage from "./views/CatPage";
 import ProductPage from "./views/ProductPage";
 import AdminPage from "./views/AdminPage";
 import EditPage from "./views/EditPage";
+import AdminLogin from "./views/AdminLogin";
+import AddPage from "./views/AddPage";
+import CartPage from "./views/CartPage";
+import DataPage from "./views/DataPage";
+import OrderPage from "./views/OrderPage";
+
+
+const isAdmin = sessionStorage.getItem("admin") === "true";
 
 const BrowserRouter = createBrowserRouter([
     {
@@ -29,11 +37,28 @@ const BrowserRouter = createBrowserRouter([
     },
     {
         path:"/admin",
-        element:<AdminPage/>
+        element: isAdmin ? <AdminPage/> : <AdminLogin/>
+
     },
     {
         path:"/admin/edit/:id",
         element:<EditPage/>
+    },
+    {
+        path:"/admin/add",
+        element:<AddPage/>
+    },
+    {
+        path:"/cart",
+        element:<CartPage/>
+    },
+    {
+        path:"/admin/data",
+        element:<DataPage/>
+    },
+    {
+        path:"/admin/data/order/:id",
+        element:<OrderPage/>
     }
 ]);
 

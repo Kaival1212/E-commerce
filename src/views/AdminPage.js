@@ -72,11 +72,24 @@ export default function AdminPage() {
         });
     }
 
+    function handleLogout(){
+        sessionStorage.setItem("admin", "false");
+        window.location.href = "/admin";
+    }
+
     return (
         <>
             <Header />
             <div className="bg-gradient-to-r from-pink-500 to-purple-500 text-gray-100 py-4 shadow-lg">
                 <div className="container mx-auto flex flex-wrap gap-2 justify-center px-4 lg:px-12">
+                    <Link to={'data'}
+                          onClick={() => handleClick("data")}
+                          className={`px-4 py-2 rounded-lg font-medium ${
+                            selectedCategory === "data" ? "bg-blue-600" : "bg-green-500 hover:bg-green-600"
+                        }`}
+                    >
+                        Data
+                    </Link>
                     <button
                         onClick={() => handleClick("all")}
                         className={`px-4 py-2 rounded-lg font-medium ${
@@ -96,6 +109,14 @@ export default function AdminPage() {
                             {cat.categoryname}
                         </button>
                     ))}
+                    <button
+                        onClick={() => handleLogout()}
+                        className={`px-4 py-2 rounded-lg font-medium ${
+                            selectedCategory === "all" ? "bg-red-600" : "bg-red-500 hover:bg-red-600"
+                        }`}
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
             <div className="container mx-auto px-4 lg:px-12 py-8">
@@ -111,6 +132,18 @@ export default function AdminPage() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div
+                            className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                            <div className="flex items-center justify-between">
+                                <div className="font-semibold text-xl">Add New Product</div>
+                                <Link
+                                    to={`add`}
+                                    className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors duration-300 font-medium"
+                                >
+                                    Add
+                                </Link>
+                            </div>
+                        </div>
                         {products.map((product) => (
                             <div
                                 key={product.productid}
@@ -123,8 +156,13 @@ export default function AdminPage() {
                                 <div>Quantity: {product.quantity}</div>
                                 <div className="flex justify-end space-x-2">
 
-                                    <Link to={`edit/${product.productid}`} className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Edit</Link>
-                                    <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600" onClick={()=>{handleProductDelete(product.productid)}}>Delete</button>
+                                    <Link to={`edit/${product.productid}`}
+                                          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Edit</Link>
+                                    <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                                            onClick={() => {
+                                                handleProductDelete(product.productid)
+                                            }}>Delete
+                                    </button>
                                 </div>
                             </div>
                         ))}
